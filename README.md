@@ -16,7 +16,7 @@ This package provides a consistent style guide for Laravel and PHP projects, ena
 Install the package via Composer:
 
 ```bash
-composer require m-breuer/pint-preset --dev
+composer require marcel-breuer/pint-preset --dev
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ To use this preset, point your project's `pint.json` to the configuration file i
 
 ```json
 {
-  "config": "./vendor/m-breuer/pint-preset/pint.json"
+  "config": "./vendor/marcel-breuer/pint-preset/pint.json"
 }
 ```
 

@@ -1,5 +1,5 @@
 {
-    "name": "m-breuer/pint-preset",
+    "name": "marcel-breuer/pint-preset",
     "description": "An opinionated Laravel Pint configuration preset for consistent PHP and Laravel project styling.",
     "keywords": [
         "laravel",
