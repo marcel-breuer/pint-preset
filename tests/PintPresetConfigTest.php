@@ -6,6 +6,18 @@ use PHPUnit\Framework\TestCase;
 
 final class PintPresetConfigTest extends TestCase
 {
+    public function test_composer_package_uses_current_github_owner(): void
+    {
+        $content = file_get_contents(__DIR__.'/../composer.json');
+
+        $this->assertNotFalse($content);
+
+        $composer = json_decode($content, true);
+
+        $this->assertIsArray($composer);
+        $this->assertSame('marcel-breuer/pint-preset', $composer['name'] ?? null);
+    }
+
     public function test_pint_config_file_exists(): void
     {
         $this->assertFileExists(__DIR__.'/../src/pint.json');
