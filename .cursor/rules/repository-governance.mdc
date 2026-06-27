@@ -1,0 +1,15 @@
+---
+description: Repository governance for coding agents
+alwaysApply: true
+---
+
+This repository is governed by `AGENTS.md`.
+
+- Read root `AGENTS.md` before implementation.
+- Read any nearest local `AGENTS.md` that applies to changed files.
+- Use `.agent/skills/README.md` to identify relevant shared skills.
+- Read only the skills required for the current task.
+- Keep changes scoped, secure, testable, and reviewable.
+- Keep execution notes and final output concise.
+
+Do not duplicate or contradict the canonical rules in `AGENTS.md`.
