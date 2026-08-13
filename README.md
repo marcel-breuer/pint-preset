@@ -7,6 +7,7 @@ This package provides a consistent style guide for Laravel and PHP projects, ena
 ## Features
 
 - Consistent and opinionated code style
+- Blade template formatting
 - Easy integration into any Laravel or PHP project
 - Centralized maintenance of formatting rules
 - Suitable for teams and individual developers
@@ -42,7 +43,8 @@ This allows your project to consume a centrally maintained Pint rule set.
 ## Requirements
 
 - PHP 8.1 or higher
-- Laravel Pint 1.10 or higher
+- Laravel Pint 1.30 or higher
+- Node.js with `prettier`, `prettier-plugin-blade`, and `prettier-plugin-tailwindcss` in consuming projects
 
 ## License
 

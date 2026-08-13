@@ -54,6 +54,7 @@
             "spacing": "one"
         },
         "declare_strict_types": true,
-        "explicit_string_variable": true
+        "explicit_string_variable": true,
+        "Pint/laravel_blade": true
     }
 }

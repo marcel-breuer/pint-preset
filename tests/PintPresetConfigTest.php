@@ -55,5 +55,8 @@ final class PintPresetConfigTest extends TestCase
 
         $this->assertArrayHasKey('explicit_string_variable', $rules);
         $this->assertTrue($rules['explicit_string_variable']);
+
+        $this->assertArrayHasKey('Pint/laravel_blade', $rules);
+        $this->assertTrue($rules['Pint/laravel_blade']);
     }
 }
