@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: changelog-main
@@ -110,18 +111,21 @@ jobs:
 
           mv CHANGELOG.md.tmp CHANGELOG.md
 
-      - name: Commit and push changelog
+      - name: Commit changelog and open pull request
         if: steps.tag.outputs.tag_name != ''
         env:
+          GH_TOKEN: ${{ github.token }}
           TAG_NAME: ${{ steps.tag.outputs.tag_name }}
         run: |
           set -euo pipefail
+
+          BRANCH="changelog/${TAG_NAME}"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git fetch origin main
-          git checkout -B main origin/main
+          git checkout -B "$BRANCH" origin/main
 
           if git diff --quiet CHANGELOG.md; then
             echo "No changelog changes to commit."
@@ -130,4 +134,37 @@ jobs:
 
           git add CHANGELOG.md
           git commit -m "docs(changelog): update for ${TAG_NAME} [skip ci]"
-          git push origin main
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "docs(changelog): update for ${TAG_NAME}" \
+            --body "Automated changelog entry for ${TAG_NAME}."
+
+      - name: Merge changelog pull request
+        if: steps.tag.outputs.tag_name != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.tag.outputs.tag_name }}
+        run: |
+          set -euo pipefail
+
+          BRANCH="changelog/${TAG_NAME}"
+
+          # Nothing to merge when the commit step found no changes.
+          if ! gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
+            echo "No changelog pull request for ${TAG_NAME}; skipping."
+            exit 0
+          fi
+
+          for attempt in 1 2 3 4 5; do
+            if gh pr merge "$BRANCH" --merge --delete-branch; then
+              exit 0
+            fi
+            echo "Merge attempt ${attempt} failed; waiting for mergeability."
+            sleep 10
+          done
+
+          echo "Changelog pull request could not be merged automatically." >&2
+          exit 1
